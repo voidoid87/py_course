@@ -35,7 +35,7 @@ def get(args):
         print(show_subparser_help('get'))
     else:
         print('В таблице dhcp такие записи:')
-        pds.get_all_data(args.db_file)
+        pds.get_data(args.db_file)
 
 
 def show_subparser_help(subparser_name):

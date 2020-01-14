@@ -30,8 +30,27 @@ Out[14]: '*17:06:12.278 UTC Wed Mar 13 2019'
 In [15]: send_commands(r1, config=['username user5 password pass5', 'username user6 password pass6'])
 Out[15]: 'config term\nEnter configuration commands, one per line.  End with CNTL/Z.\nR1(config)#username user5 password pass5\nR1(config)#username user6 password pass6\nR1(config)#end\nR1#'
 '''
+from netmiko import ConnectHandler
 
 commands = [
     'logging 10.255.255.1', 'logging buffered 20010', 'no logging console'
 ]
 command = 'sh ip int br'
+
+def send_commands(device, show = None, config = None):
+	with ConnectHandler(**device) as s:
+		s.enable()
+		if show:
+			return(s.send_command(show))
+		if config:
+			return(s.send_config_set(config))
+
+if __name__ == '__main__':
+	device = {
+	'device_type': 'cisco_ios',
+	'ip': '192.168.100.1',
+	'username': 'cisco',
+	'password': 'cisco',
+	'secret': 'cisco'}
+	print(send_commands(device, command))
+	print(send_commands(device, config = commands))

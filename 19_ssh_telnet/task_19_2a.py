@@ -21,3 +21,31 @@ In [15]:
 
 Скрипт должен отправлять список команд commands на все устройства из файла devices.yaml с помощью функции send_config_commands.
 '''
+import netmiko
+import yaml
+
+commands = [
+    'logging 10.255.255.1', 'logging buffered 20010', 'no logging console'
+]
+
+def send_config_commands(device, config_commands, verbose = True):
+	if verbose:
+		print('Connecting to ' + device['ip'])
+	try:
+		with netmiko.ConnectHandler(**device) as s:
+			s.enable()
+			result = s.config_mode()
+			if s.check_config_mode:
+				result = result + s.send_config_set(config_commands)
+			if s.check_config_mode:
+				s.exit_config_mode()
+	except (netmiko.ssh_exception.NetMikoAuthenticationException, 
+			netmiko.ssh_exception.NetMikoTimeoutException) as e:
+		print(str(e))
+	return result
+
+if __name__ == '__main__':
+	with open('devices.yaml', 'r') as f:
+		d = yaml.safe_load(f)
+	for device in d:
+		print(send_config_commands(device, commands))

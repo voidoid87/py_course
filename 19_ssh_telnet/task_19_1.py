@@ -17,3 +17,17 @@
 '''
 
 command = 'sh ip int br'
+
+from netmiko import ConnectHandler
+import yaml
+
+def send_show_command(device, command):
+	with ConnectHandler(**device) as s:
+		s.enable()
+		return(s.send_command(command))
+
+if __name__ == '__main__':
+	with open('devices.yaml', 'r') as f:
+		d = yaml.safe_load(f)
+	for device in d:
+		print(send_show_command(device, command))
