@@ -1,0 +1,22 @@
+---
+
+- name: Run show command on routers
+  hosts: cisco-routers
+  gather_facts: false
+  
+  tasks:
+  
+  - name: Send commands to cisco
+    ios_command:
+      commands: 
+      - sh arp
+      - sh ip int br
+    register: result
+    
+  - name: Showing the first command output
+    debug: 
+      var: result.stdout_lines[0]
+      
+  - name: Showing the second command output
+    debug: 
+      var: result.stdout_lines[1]

@@ -5,3 +5,10 @@
 
 [cisco-switches]
 192.168.100.100
+
+[cisco-ios:children]
+cisco-routers
+cisco-switches
+
+[R1]
+192.168.100.1

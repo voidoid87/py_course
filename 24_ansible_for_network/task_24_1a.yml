@@ -12,5 +12,4 @@
     register: sh_arp_output
     
   - debug: 
-      var: sh_arp_output.stdout
-     
+      var: sh_arp_output.stdout_lines

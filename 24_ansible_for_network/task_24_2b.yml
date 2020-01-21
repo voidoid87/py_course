@@ -1,0 +1,21 @@
+---
+
+
+- name: Cisco IOS facts
+  hosts: cisco-routers
+  gather_facts: false
+  
+  tasks:
+   
+  - name: Gathering facts....
+    ios_facts: 
+      gather_subset: all
+      
+  - name: Showing IPv6 interfaces
+    ios_command:
+      commands: sh ipv6 int br
+    register: show_result
+     
+  - debug:
+      var: show_result.stdout_lines
+      var: ansible_net_all_ipv6_addresses

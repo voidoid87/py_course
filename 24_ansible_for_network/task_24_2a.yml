@@ -1,0 +1,24 @@
+---
+
+
+- name: Gathering facts
+  hosts: cisco-routers
+  gather_facts: false
+  
+  tasks:
+   
+  - name: Gathering facts....
+    ios_facts: 
+      gather_subset: all
+      
+  - name: Create dir for facts
+    file:
+      path: all_facts
+      state: directory
+      mode: 0755
+        
+  - name: Saving facts
+    copy:
+      content: "{{ ansible_net_interfaces | to_nice_json }}"
+      dest: "all_facts/{{ inventory_hostname }}_intf_facts.yaml"
+

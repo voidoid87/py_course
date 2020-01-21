@@ -1,0 +1,17 @@
+---
+
+
+- name: Gathering facts
+  hosts: cisco-routers
+  gather_facts: false
+  
+  tasks:
+   
+  - name: Gathering facts....
+    ios_facts: 
+      gather_subset: all
+    
+  - name: show interfaces fact  
+    debug:
+      var: ansible_net_interfaces
+

@@ -1,0 +1,11 @@
+---
+
+- name: Run cfg commands on routers
+  hosts: R1
+  gather_facts: false
+  
+  tasks:
+  
+  - name: Apply ACL CFG
+    ios_config:
+      src: acl_cfg.j2

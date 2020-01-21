@@ -8,9 +8,10 @@
   
   - name: sh arp command
     ios_command:
-      commands: sh arp
-    register: sh_arp_output
+      commands: 
+      - sh arp
+      - sh ip int br
+    register: result
     
   - debug: 
-      var: sh_arp_output.stdout
-     
+      var: result.stdout_lines
